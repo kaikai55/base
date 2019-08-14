@@ -1,0 +1,107 @@
+import java.text.SimpleDateFormat
+
+buildscript {
+    ext {
+        kotlinVersion = '1.2.41'
+        springBootVersion = '2.0.4.RELEASE'
+    }
+    repositories {
+        maven {url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+        classpath 'org.hidetake:gradle-ssh-plugin:2.9.0'
+    }
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-spring'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'war'
+apply plugin: 'org.hidetake.ssh'
+
+group = 'com.shenlan.base'
+version = ''
+sourceCompatibility = 1.8
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
+}
+springBoot {
+    mainClassName  = "com.shenlan.base.ApplicationKt"
+}
+ssh.settings {
+    knownHosts = allowAnyHosts
+}
+
+remotes {
+    smsserver_1 {
+        host = '192.168.1.12'
+        port = 22
+        user = "oracle"
+        password = "SHENLAN@2016"
+    }
+}
+
+task upload(dependsOn: war) doLast {
+    ssh.run {
+        session(remotes.smsserver_1) {
+            put from: 'build/libs/base.war', into: '/shenlan/war'
+            execute 'sh /shenlan/war/deploy.sh base'
+        }
+    }
+}
+
+task ci(){//打包时 将打包时间写入ci.txt
+    File file = new File('src/main/resources/ci.txt')
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm")
+    println sdf.format(new Date())
+    file.write(sdf.format(new Date()))
+}
+clean.dependsOn ci
+
+repositories {
+    maven {url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+    mavenCentral()
+    jcenter()
+}
+
+test.enabled = false//取消test
+
+war{//根目录设置为build/www
+    webAppDirName="www"
+}
+
+def profile1 = project.hasProperty("profile") == true ? profile : "dev"
+processResources {
+    filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [profileName: profile1]
+}
+
+dependencies {
+//    compile fileTree(dir: 'lib', include: ['*.jar'])
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-aop')
+    compile('com.fasterxml.jackson.module:jackson-module-kotlin')
+    compile('mysql:mysql-connector-java')
+
+    compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2')
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    compile("org.jetbrains.kotlin:kotlin-reflect")
+    compile('com.alibaba:fastjson:1.2.49')
+    runtime('org.springframework.boot:spring-boot-devtools')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}

@@ -1,0 +1,18 @@
+
+spring:
+    devtools:
+        restart:
+            enabled: false
+        livereload:
+            enabled: false
+#        datasource:
+#            type: org.springframework.jdbc.datasource.DriverManagerDataSource
+#            url:  jdbc:oracle:thin:@192.168.1.12:1521:orcl
+#            username: base
+#            password: base
+
+server:
+    port: 8084
+
+application:
+      active: prod

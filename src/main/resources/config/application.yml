@@ -1,0 +1,15 @@
+spring:
+    profiles:
+        active: @profileName@
+    devtools:
+        restart:
+            enabled: true
+        livereload:
+            enabled: false
+    servlet:
+            multipart:
+                maxFileSize: 100MB
+                maxRequestSize: 100MB
+
+application:
+      active: dev

@@ -1,0 +1,45 @@
+<?mapper version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+ 
+  <environments default="dev">
+  <environment id="dev">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value=""/>
+        <property name="username" value=""/>
+        <property name="password" value=""/>
+        <property name="poolMaximumActiveConnections" value="30"/>
+		<property name="poolMaximumIdleConnections" value="10"/>
+      </dataSource>
+    </environment>
+    <environment id="prod">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value=""/>
+        <property name="username" value=""/>
+        <property name="password" value=""/>
+        <property name="poolMaximumActiveConnections" value="30"/>
+		<property name="poolMaximumIdleConnections" value="10"/>
+      </dataSource>
+    </environment>
+     <environment id="proddev">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value=""/>
+        <property name="url" value=""/>
+        <property name="username" value=""/>
+        <property name="password" value=""/>
+        <property name="poolMaximumActiveConnections" value="30"/>
+		<property name="poolMaximumIdleConnections" value="10"/>
+      </dataSource>
+    </environment>
+  </environments>
+  <mappers>
+    <package name="com.shenlan.base.auto"/>
+  </mappers>
+</configuration>

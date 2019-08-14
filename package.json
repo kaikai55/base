@@ -1,0 +1,38 @@
+{
+    "name": "markapplygk",
+    "version": "0.0.0",
+    "license": "MIT",
+    "scripts": {
+        "start": "ng serve --port 4206 --proxy-config proxy.conf.json --host 127.0.0.1",
+        "svnupdate": "svn update",
+        "前端生产模式打包": "",
+        "fprod": "npm run svnupdate && ng build --prod --aot -op www",
+        "前端开发模式打包": "",
+        "fdev": "npm run svnupdate && ng build -op www",
+        "后端生产模式打包": "",
+        "bprod": "gradle clean build -Pprofile=prod",
+        "后端开发模式打包": "",
+        "bdev": "gradle clean build -Pprofile=dev",
+        "后端proddev模式 部署在weblogic下的dev模式 ": "",
+        "bproddev": "gradle clean build -Pprofile=proddev",
+        "上传12服务器并部署": "",
+        "upload": "gradle upload",
+        "默认生产模式打包": "",
+        "package": "npm run fprod && npm run bprod",
+        "开发模式打包": "",
+        "packagedev": "npm run fdev && npm run bdev",
+        "proddev模式打包": "",
+        "packageproddev": "npm run fprod && npm run bproddev",
+        "proddev模式部署": "",
+        "deploy": "npm run packageproddev && npm run upload",
+        "后端打包 上传 并部署": "",
+        "deployb": "npm run bproddev && npm run upload"
+    },
+    "private": true,
+    "dependencies": {
+
+    },
+    "devDependencies": {
+
+    }
+}

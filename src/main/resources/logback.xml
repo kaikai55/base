@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true">
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+	<appender name="Exception_File"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover 每周 -->
+			<fileNamePattern>${user.dir}/logs/autostart/Exception/Exception_%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<maxHistory>60</maxHistory>
+		</rollingPolicy>
+		<encoder>
+            <charset>utf-8</charset>
+            <Pattern>%d %-5level [%thread] %logger{0}: %msg%n</Pattern>
+        </encoder>
+	</appender>
+	
+	<!--<appender name="CMP_File"-->
+		<!--class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+		<!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+			<!--&lt;!&ndash; daily rollover 每周 &ndash;&gt;-->
+			<!--<fileNamePattern>${user.dir}/logs/autostart/CMP/CMP_%d{yyyy-MM-dd}.log-->
+			<!--</fileNamePattern>-->
+			<!--<maxHistory>60</maxHistory>-->
+		<!--</rollingPolicy>-->
+		<!--<encoder>-->
+            <!--<charset>utf-8</charset>-->
+            <!--<Pattern>%d %-5level [%thread] %logger{0}: %msg%n</Pattern>-->
+        <!--</encoder>-->
+	<!--</appender>-->
+
+	<appender name="System_File"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover 每周 -->
+			<fileNamePattern>${user.dir}/logs/autostart/System/Info_%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<maxHistory>60</maxHistory>
+		</rollingPolicy>
+		<encoder>
+            <charset>utf-8</charset>
+            <Pattern>%d %-5level [%thread] %logger{0}: %msg%n</Pattern>
+        </encoder>
+	</appender>
+
+
+    <logger name="com.shennan.autostart" level="debug"/>
+
+    <logger name="org.ehcache" level="WARN"/>
+    <logger name="org.apache" level="WARN"/>
+    <logger name="org.apache.catalina.startup.DigesterFactory" level="OFF"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.springframework.web" level="info"/>
+    <logger name="org.springframework.security" level="info"/>
+    <logger name="org.springframework.cache" level="WARN"/>
+    <logger name="liquibase" level="WARN"/>
+    <logger name="LiquibaseSchemaResolver" level="WARN"/>
+ 	<logger name="org.mybatis.spring" level="WARN"/>
+ 	<logger name="org.apache.ibatis" level="WARN"/>
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+
+    
+    <root level="info">
+		<appender-ref ref="CONSOLE"/>
+		<appender-ref ref="System_File" />
+	</root>
+
+	<logger name="Exception" level="error">
+		<appender-ref ref="Exception_File" />
+	</logger>
+	
+	<!--<logger name="CMP" level="info">-->
+		<!--<appender-ref ref="CMP_File" />-->
+	<!--</logger>-->
+</configuration>

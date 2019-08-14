@@ -1,0 +1,20 @@
+spring:
+    profiles:
+        active: dev
+    devtools:
+        restart:
+            enabled: true
+        livereload:
+            enabled: false
+    datasource:
+        type: org.springframework.jdbc.datasource.DriverManagerDataSource
+        url:  #写上正确的地址
+        username: #
+        password: #
+        driver-class-name: com.mysql.jdbc.Driver
+
+server:
+    port: 8086
+
+application:
+      active: dev
